@@ -3,13 +3,27 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
+    <changeSet id="create-employees-table" author="elias">
+        <sql>
+            CREATE TABLE employees
+            (
+                id          BIGSERIAL PRIMARY KEY NOT NULL,
+                firstname   VARCHAR(2000),
+                lastname    VARCHAR(2000),
+                itn         BIGINT,
+                hiring_date TIMESTAMP
+            );
+        </sql>
+    </changeSet>
     <changeSet id="create-persons-table" author="elias">
         <sql>
             CREATE TABLE persons
             (
-                id       BIGSERIAL PRIMARY KEY NOT NULL,
-                login    varchar(2000),
-                password varchar(2000)
+                id          BIGSERIAL PRIMARY KEY NOT NULL,
+                login       VARCHAR(2000),
+                password    VARCHAR(2000),
+                employee_id BIGINT,
+                FOREIGN KEY (employee_id) REFERENCES employees (id)
             );
         </sql>
     </changeSet>

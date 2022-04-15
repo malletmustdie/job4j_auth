@@ -3,11 +3,23 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
+    <changeSet author="elias" id="init-employees">
+        <sql>
+            insert into employees (firstname, lastname, itn, hiring_date)
+            values ('Michael', 'Scott', 2132412313, NOW());
+            insert into employees (firstname, lastname, itn, hiring_date)
+            values ('Jim', 'Halpert', 1238729712, NOW());
+        </sql>
+    </changeSet>
+
     <changeSet author="elias" id="init-persons">
         <sql>
-            insert into persons (login, password) values ('parsentev', '123');
-            insert into persons (login, password) values ('ban', '123');
-            insert into persons (login, password) values ('ivan', '123');
+            insert into persons (login, password, employee_id)
+            values ('m.scott@@dundermifflin.com', '123', 1);
+            insert into persons (login, password, employee_id)
+            values ('m.scott@dundermifflin.com (BANNED)', '123', 1);
+            insert into persons (login, password, employee_id)
+            values ('j.halpert@dundermifflin.com', '321', 2);
         </sql>
     </changeSet>
 </databaseChangeLog>

@@ -28,24 +28,8 @@ public class PersonController {
 
     private final PersonsService personsService;
 
-    @ApiOperation("Получение списка сущностей Person")
-    @GetMapping(ApiPathConstants.FIND_ALL_PERSONS)
-    public List<Person> findAll() {
-        return personsService.findAll();
-    }
-
-    @ApiOperation("Получение сущности Person по идентификатору")
-    @GetMapping(ApiPathConstants.FIND_PERSON + ApiPathConstants.BY_ID)
-    public ResponseEntity<PersonDto> findById(@PathVariable Long id) {
-        var person = personsService.findById(id);
-        return new ResponseEntity<>(
-                person.orElse(new PersonDto()),
-                person.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND
-        );
-    }
-
     @ApiOperation("Создание сущности Person")
-    @PostMapping(ApiPathConstants.CREATE_PERSON)
+    @PostMapping(value = ApiPathConstants.CREATE_PERSON, produces = "application/json")
     public ResponseEntity<Person> create(@RequestBody PersonDto person) {
         return new ResponseEntity<>(
                 personsService.save(person),
@@ -54,17 +38,35 @@ public class PersonController {
     }
 
     @ApiOperation("Редактирование сущности Person")
-    @PutMapping(ApiPathConstants.UPDATE_PERSON)
+    @PutMapping(value = ApiPathConstants.UPDATE_PERSON, produces = "application/json")
     public ResponseEntity<Void> update(@RequestBody PersonDto person) {
         personsService.update(person);
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation("Удаление сущности Person")
-    @DeleteMapping(ApiPathConstants.DELETE_PERSON + ApiPathConstants.BY_ID)
+    @DeleteMapping(value = ApiPathConstants.DELETE_PERSON + ApiPathConstants.BY_ID,
+                   produces = "application/json")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         personsService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation("Получение сущности Person по идентификатору")
+    @GetMapping(value = ApiPathConstants.FIND_PERSON + ApiPathConstants.BY_ID,
+                produces = "application/json")
+    public ResponseEntity<PersonDto> findById(@PathVariable Long id) {
+        var person = personsService.findById(id);
+        return new ResponseEntity<>(
+                person.orElse(new PersonDto()),
+                person.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ApiOperation("Получение списка сущностей Person")
+    @GetMapping(ApiPathConstants.FIND_ALL_PERSONS)
+    public List<Person> findAll() {
+        return personsService.findAll();
     }
 
 }

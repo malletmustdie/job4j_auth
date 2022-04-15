@@ -18,4 +18,4 @@ spring:
       matching-strategy: ant_path_matcher
 springfox:
   documentation:
-    swagger.v2.path: /api-docs
+    swagger.v2.path: /v2/api-docs
